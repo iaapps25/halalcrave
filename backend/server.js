@@ -41,9 +41,11 @@ app.get('/api/restaurants', async (req, res) => {
         r.halal_status,
         r.halal_confidence_score,
         r.source,
+        r.image,
         r.created_at,
         gm.rating,
-        gm.review_count
+        gm.review_count,
+        gm.phone
       FROM restaurants r
       LEFT JOIN google_metadata gm ON r.id = gm.restaurant_id
       WHERE LOWER(r.city) = LOWER($1)
@@ -74,11 +76,13 @@ app.get('/api/restaurants/:id', async (req, res) => {
         r.halal_status,
         r.halal_confidence_score,
         r.source,
+        r.image,
         r.created_at,
         gm.rating,
         gm.review_count,
-        gm.keyword_flags,
-        gm.last_verified_at
+        gm.phone,
+        gm.website,
+        gm.hours
       FROM restaurants r
       LEFT JOIN google_metadata gm ON r.id = gm.restaurant_id
       WHERE r.id = $1
@@ -391,3 +395,4 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+
